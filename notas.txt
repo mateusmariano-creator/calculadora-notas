@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Notas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .resultado {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Calculadora de Notas</h2>
+
+  <label>1º Bimestre</label>
+  <input type="number" id="b1" step="0.1" value="0">
+
+  <label>2º Bimestre</label>
+  <input type="number" id="b2" step="0.1" value="0">
+
+  <label>Recuperação 1º Semestre</label>
+  <input type="number" id="r1" step="0.1" value="0">
+
+  <label>3º Bimestre</label>
+  <input type="number" id="b3" step="0.1" value="0">
+
+  <label>Nota já lançada no 4º Bimestre</label>
+  <input type="number" id="b4" step="0.1" value="0">
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+function calcular() {
+  const b1 = Number(document.getElementById("b1").value);
+  const b2 = Number(document.getElementById("b2").value);
+  const r1 = Number(document.getElementById("r1").value);
+  const b3 = Number(document.getElementById("b3").value);
+  const b4 = Number(document.getElementById("b4").value);
+
+  const media1 = Math.max((b1 + b2) / 2, r1);
+
+  const necessario2Sem = 12 - media1 * 2;
+  const falta4 = Math.max(0, necessario2Sem - b3 - b4);
+
+  let texto = "";
+
+  if (falta4 === 0) {
+    texto = "✅ Você já garantiu a média para passar.";
+  } else if (falta4 > 10) {
+    texto = "⚠️ Não é possível fechar direto. Só com recuperação.";
+  } else {
+    texto = `📌 Você precisa tirar ${falta4.toFixed(1)} no restante do 4º bimestre.`;
+  }
+
+  document.getElementById("resultado").innerHTML = texto;
+}
+</script>
+
+</body>
+</html>
